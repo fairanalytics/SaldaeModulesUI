@@ -1,0 +1,9 @@
+{
+    "path" : "~/Saldae_Analytics/SaldaePackages/SaldaeModulesUI",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

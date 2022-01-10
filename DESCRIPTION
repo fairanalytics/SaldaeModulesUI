@@ -1,0 +1,30 @@
+Package: SaldaeModulesUI
+Type: Package
+Title: Shiny Dashboard modules by Saldae Analytics
+Version: 0.1
+Author: Farid Azouaou
+Maintainer: Farid Azouaou <contact@saldaenalytics.com>
+Description: The package consists of a set of reproducible shiny module (SERVER/UI), which make dashboard generation easier and handy.
+Imports: 
+      shiny,
+      reactable, 
+      shinydashboard,
+      shinydashboardPlus,
+      rhandsontable,
+      shinyjqui,
+      plotly,
+      leaflet,
+      dplyr,  
+      tidyr,  
+      purrr, 
+      shinyWidgets,
+      flexdashboard,
+      SaldaeDataExplorer,
+      SaldaeForecasting,
+      SaldaeReporting,
+      shinyalert,
+      colourpicker
+License: MIT 
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
