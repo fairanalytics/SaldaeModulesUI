@@ -189,11 +189,11 @@ SA_tisefka_multiple_mod <- function(input, output, session,tisefka,div_width = "
   SA_div_width <- reactive({
     req(target_variables())
     if(length(target_variables())==1){
-      div_width  <- "col-xs-6 col-sm-12 col-md-12"
+      div_width  <- c(12,12)
     }else if(length(target_variables())==2){
-      div_width  <- "col-xs-6 col-sm-12 col-md-6"
+      div_width  <- c(6,12)
     }else{
-      div_width  <- "col-xs-6 col-sm-12 col-md-4"
+      div_width  <- c(4,12)
     }
     return(div_width)
   })
@@ -201,21 +201,16 @@ SA_tisefka_multiple_mod <- function(input, output, session,tisefka,div_width = "
   output$graphs_ui <- renderUI({
     req(tisefka_yiwen_plots())
     plots_list <- purrr::imap(tisefka_yiwen_plots(), ~{
-      tagList(
-        div(class = SA_div_width(),
-            bs4Dash::tabBox(width = 12, title = .y,
-                                   tabPanel(icon("bar-chart"),
+            bs4Dash::tabBox(width = SA_div_width()[1], title = .y,status = "success",
+                                   tabPanel(icon("fas fa-chart-bar"),
                                             plotly::plotlyOutput(session$ns(paste0("tisefka_plot_",.y)), height = "300px")
                                    ),
                                    tabPanel(icon("table"),
                                             DT::dataTableOutput(session$ns(paste0("tisefka_table_",.y)))
                                    )
             )
-        ),
-        br()
-      )
     })
-    tagList(plots_list)
+    fluidRow(plots_list)
   })
   observeEvent(input$submit, {
     req(tisefka_yiwen_plots())

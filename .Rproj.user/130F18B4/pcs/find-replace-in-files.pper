@@ -1,12 +1,12 @@
 {
     "dialog-state": {
-        "query": "SALDAE_reporting_engine",
-        "path": "~/Saldae Platform/SaldaeModulesUI/R",
+        "query": "shinyhelper",
+        "path": "~/Saldae_Platform",
         "regex": false,
         "caseSensitive": false,
         "filePatterns": [],
         "excludeFilePatterns": [],
-        "resultsCount": 2,
+        "resultsCount": 0,
         "errorCount": 0,
         "replaceErrors": ""
     }

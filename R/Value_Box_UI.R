@@ -30,7 +30,7 @@ SA_Value_box_server <- function(input, output, session,tisefka) {
 output$SA_infobox <- bs4Dash::renderInfoBox({
   bs4Dash::infoBox(title = "Info",
     value = 22,subtitle = "Saldae Info Box",color = "maroon",
-    shiny::icon("bar-chart")
+    shiny::icon("fas fa-chart-bar")
   )
 })
 

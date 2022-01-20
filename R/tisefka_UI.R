@@ -101,8 +101,8 @@ SA_tisefka_UI <- function(id,mod_title = NULL ,div_width = "col-xs-12 col-sm-12 
   fluidPage(
     uiOutput(ns("tisefka_view_box")),
     div(class = div_width,
-        bs4Dash::tabBox(width = 12, title = mod_title,
-                               tabPanel(icon("bar-chart"),
+        bs4Dash::tabBox(width = 12, title = mod_title,status = "success",
+                               tabPanel(icon("fas fa-chart-bar"),
                                         plotly::plotlyOutput(ns("tisefka_plot"))
                                ),
                                tabPanel(icon("table"),
@@ -231,8 +231,8 @@ SA_tisefka_mod <- function(input, output, session,tisefka) {
       inputId = session$ns("graph_type"),
       label = "Select Chart Type:",
       choices = plot_choices,
-      justified = FALSE,
-      status = "success",
+      status = "info",
+      justified = TRUE,
       selected = plot_choices[1]
     )
   })

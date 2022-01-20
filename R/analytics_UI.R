@@ -138,8 +138,10 @@ SA_tisefka_forecast_mod <- function(input, output, session,tisefka,div_width = "
       style = "material-flat",
       color = "success",
       label = "Start Predictions")%>%shinyhelper::helper(type = "markdown",buttonLabel="Got it",
-                                                         # icon= shiny::icon("fa-lightbulb"),
-                                                         colour = "green",
+                                                         icon= shiny::icon("fas fa-question-circle"),
+                                                         colour = "orange",
+                                                         # fade   = TRUE,
+                                                         size = "l",
                                                          content = "sald_forecast")
   })
 
@@ -295,38 +297,45 @@ SA_tisefka_forecast_mod <- function(input, output, session,tisefka,div_width = "
         bs4Dash::infoBox(title = my_title,
                          value =my_analytics_key_values()[[.x]],color = "maroon",
                          width = 6,
-                         shiny::icon("bar-chart")
+                         shiny::icon("fas fa-chart-bar")
         )
       })
 
       #
     })
   })
-
+  # dynamic size of the panel
+  SA_div_width <- reactive({
+    req(target_variables())
+    if(length(target_variables())==1){
+      div_width  <- c(12,12)
+    }else if(length(target_variables())==2){
+      div_width  <- c(6,12)
+    }else{
+      div_width  <- c(4,12)
+    }
+    return(div_width)
+  })
+  # display the panels
   output$graphs_ui <- renderUI({
     req(tisefka_plots())
     plots_list <- purrr::imap(tisefka_plots(), ~{
-      tagList(
-        div(class = div_width,
-            bs4Dash::tabBox(width = 12, title = .y,
-                                   tabPanel(icon("bar-chart"),
-                                            plotly::plotlyOutput(session$ns(paste0("tisefka_plot_",.y)), height = "300px")
-                                   ),tabPanel(icon("table"),
-                                              DT::dataTableOutput(session$ns(paste0("tisefka_table_",.y)))
-                                   ),tabPanel(icon("align-left"),
-                                              shiny::textAreaInput(inputId = session$ns(paste0("tisefka_awal_",.y)),label = "Comments",value = "insert your comments here",width = "100%",height = "50%")
-                                   ),tabPanel(icon("percentage"),
-                                              fluidRow(
-                                                bs4Dash::infoBoxOutput(session$ns(paste0("tisefka_key_figures_",.y)), width = 8)
-                                              )# fluidRow
-                                   )# tabPanle: percentage
+      bs4Dash::tabBox(width = SA_div_width()[1], title = .y,
+                      tabPanel(icon("fas fa-chart-bar"),
+                               plotly::plotlyOutput(session$ns(paste0("tisefka_plot_",.y)), height = "300px")
+                      ),tabPanel(icon("table"),
+                                 DT::dataTableOutput(session$ns(paste0("tisefka_table_",.y)))
+                      ),tabPanel(icon("align-left"),
+                                 shiny::textAreaInput(inputId = session$ns(paste0("tisefka_awal_",.y)),label = "Comments",value = "insert your comments here",width = "100%",height = "50%")
+                      ),tabPanel(icon("percentage"),
+                                 fluidRow(
+                                   bs4Dash::infoBoxOutput(session$ns(paste0("tisefka_key_figures_",.y)), width = 8)
+                                 )# fluidRow
+                      )# tabPanle: percentage
 
-            )
-        ),
-        br()
       )
     })
-    tagList(plots_list)
+    fluidRow(plots_list)
   })
   my_analytics_key_values <- reactive({
     my_value <- purrr::map(names(tisefka_forecast()),~key_value_calculator(tisefka = tisefka_forecast()[[.x]][,"forecast"],key_value = input$SA_key_figure_select))%>%

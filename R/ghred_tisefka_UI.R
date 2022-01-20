@@ -6,7 +6,7 @@
 ghred_tisefka_UI <- function(id){
   ns <- NS(id)
 fluidPage(
-  tags$head(tags$style(".progress-bar{background-color:#A6761D;}")),
+  # tags$head(tags$style(".progress-bar{background-color:#A6761D;}")),
   fluidRow(
     column(width = 3,
            fileInput(inputId = ns("tisefka_file"), label = "Choose CSV File",
@@ -21,9 +21,11 @@ fluidPage(
     column(width= 3,
            shinyWidgets::radioGroupButtons(
              inputId = ns("tisefka_tala"),
-             label = "Data Source :",
+             label = "Data Source",
              choices = c(
-               `<i class="fas fa-table"></i>` = "table", `<i class="fas fa-database"></i>` = "database"),
+               `<i class="fas fa-table"></i>` = "table", `<i class="fas fa-database"></i>` = "database",
+               `<i class="fas fa-globe"></i>` = "web_api",`<i class="fas fa-cloud-upload-alt"></i>` = "cloud",
+               `<i class="fab fa-dropbox"></i>` = "dropbox"),
              status = "info",
              justified = TRUE,
              selected = "table"
@@ -32,9 +34,6 @@ fluidPage(
     column(width = 3, uiOutput(ns("excel_tawriqt")))
   ),
   #-----------date related settings
-  #---- Help text
-  uiOutput(ns("date_variable_help")),
-
   fluidRow(column(width = 3,
                   uiOutput(ns("date_variable"))),
            column(width = 3,
@@ -44,8 +43,8 @@ fluidPage(
   #---- Data Overview 1(key figures)
   uiOutput(ns("SA_tisefka_overview")),
   #-------- Data overview 2
-  div(class = "col-xs-12 col-sm-12 col-md-12",
-      bs4Dash::tabBox(width = 12, title = "Data Diagnosis",
+  # div(class = "col-xs-12 col-sm-12 col-md-12",
+      bs4Dash::tabsetPanel(
                              tabPanel(title = "Overview",icon = icon("eye"),
                                       rhandsontable::rHandsontableOutput(ns("tisefka_view"))
                              ),
@@ -56,7 +55,7 @@ fluidPage(
                                       rhandsontable::rHandsontableOutput(ns("tisefka_outliers"))
                              )
       )
-  )
+  # )
 )
 
 }
@@ -101,7 +100,10 @@ ghred_tisefka_mod <-function(input, output, session){
 
   tisefka <- reactive({
     req(file_tasetta())
+
     tisefka <- SaldaeDataExplorer::ghred_tisefka_aqerru(input_file = input$tisefka_file , tala = file_tasetta(), tawriqt = input$excel_tawriqt)
+    shinyalert::shinyalert("Data Import", text = "Data Successfully uploaded", type = "success",
+                           closeOnClickOutside  = TRUE,showConfirmButton = TRUE)
     # if(!is.null(input$tisefka_mapping_file)){
     #   tisefka_mapping <-readr::read_csv(input$tisefka_mapping_file$datapath)
     #   tisefka <- tisefka%>%dplyr::left_join(tisefka_mapping)
@@ -110,11 +112,7 @@ ghred_tisefka_mod <-function(input, output, session){
   })
 
 
-  output$date_variable_help <- renderUI({
-    req(tisefka())
-    my_help_text <- h5("Data Successfully uploaded, you need to specify the variable to use for time (Date)", style = "color:green")
-    helpText(my_help_text)
-  })
+
   #------- select date variable
   dates_yellan <- reactive({
     req(tisefka())
@@ -247,7 +245,7 @@ output$SA_tisefka_overview <- renderUI({
 output$SA_overview1 <- bs4Dash::renderInfoBox({
   req(ts_time_units())
   bs4Dash::infoBox(title = "Time frequency",
-                          value = ts_time_units()[1],subtitle = paste("Date Variable:",input$date_variable),color = "info",
+                          value = ts_time_units()[1],subtitle = paste("Date Variable:",input$date_variable),color = "info",fill = TRUE,
                           shiny::icon("hourglass")
   )
 })
@@ -255,8 +253,8 @@ output$SA_overview2 <- bs4Dash::renderInfoBox({
   req(tisefka_tizegzawin())
   info_val <- paste(ncol(tisefka_tizegzawin()),"x",nrow(tisefka_tizegzawin()))
   bs4Dash::infoBox(title = "Data Info",
-                          value = info_val,subtitle = "Variables x Elements",color = "navy",
-                          shiny::icon("bar-chart")
+                          value = info_val,subtitle = "Variables x Elements",color = "navy",fill = TRUE,
+                          shiny::icon("fas fa-chart-bar")
   )
 })
 output$SA_overview3 <- bs4Dash::renderInfoBox({
@@ -270,7 +268,7 @@ output$SA_overview3 <- bs4Dash::renderInfoBox({
   if(val_quality < 30 )qual_col <- "maroon"
 
   bs4Dash::infoBox(title = "Data Quality",
-                          value = paste(val_quality,"%"),subtitle = "not missing values",color = qual_col,
+                          value = paste(val_quality,"%"),subtitle = "not missing values",color = qual_col,fill = TRUE,
                           shiny::icon("tasks")
   )
 })

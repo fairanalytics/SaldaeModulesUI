@@ -63,9 +63,10 @@ SA_reporting_mod <- function(input, output, session,tisefka_list){
     selectInput(session$ns("report_type"), label = "Document Type:",
                 choices = c("html","html_pretty","presentation","dashboard","powerpoint"))%>%
       shinyhelper::helper(type = "markdown",buttonLabel="Got it",
-                          # icon= shiny::icon("fa-lightbulb"),
-                          size = "l",
-                          colour = "green",content = "sald_report")
+                          icon= shiny::icon("fas fa-question-circle"),
+                          colour = "orange",
+                          # fade   = TRUE,
+                          size = "l",content = "sald_report")
   })
 
 
@@ -89,8 +90,10 @@ output$report_output_box <- renderUI({
                       status = "success",width = 12,
                       #-----HEADER CONTENT
                       fluidRow(
-                        column(width = 4,uiOutput(session$ns("generate_SA_report"))),
-                        column(width = 4,uiOutput(session$ns("export_SA_report")))
+                        column(width = 3,uiOutput(session$ns("generate_SA_report"))),
+                        column(width = 3,uiOutput(session$ns("export_SA_report"))),
+                        column(width = 3,uiOutput(session$ns("share_SA_report")))
+
                       )
   )
 })
@@ -118,12 +121,23 @@ saldae_report_header <- reactive({
 output$generate_SA_report <- renderUI({
   req(tisefka_list())
   shinyWidgets::actionBttn(inputId = session$ns("generate_SA_report"),
+                           icon = icon("fas fa-globe"),
+                           color = "success",
                            label = "Publish Report",style = "material-flat")
 })
 output$export_SA_report <- renderUI({
   req(tisefka_list())
   shinyWidgets::downloadBttn(outputId = session$ns("export_SA_report2"),
+                             icon = icon("fas fa-file-download"),
+                             color = "success",
                            label = "Download Report",style = "material-flat")
+})
+output$share_SA_report <- renderUI({
+  req(tisefka_list())
+  shinyWidgets::actionBttn(inputId = session$ns("share_SA_report"),
+                             icon = icon("fas fa-share-alt"),
+                             color = "success",
+                             label = "Share Report",style = "material-flat")
 })
 
 

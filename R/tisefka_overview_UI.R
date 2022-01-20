@@ -35,19 +35,19 @@ SA_tisefka_overview_server <- function(input, output, session,tisefka) {
   output$SA_overview1 <- bs4Dash::renderInfoBox({
     bs4Dash::infoBox(title = "Info",
                             value = 22,subtitle = "Saldae Info Box",color = "olive",
-                            shiny::icon("bar-chart")
+                            shiny::icon("fas fa-chart-bar")
     )
   })
   output$SA_overview2 <- bs4Dash::renderInfoBox({
     bs4Dash::infoBox(title = "Info",
                             value = 22,subtitle = "Saldae Info Box",color = "green",
-                            shiny::icon("bar-chart")
+                            shiny::icon("fas fa-chart-bar")
     )
   })
   output$SA_overview3 <- bs4Dash::renderInfoBox({
     bs4Dash::infoBox(title = "Info",
                             value = 22,subtitle = "Saldae Info Box",color = "navy",
-                            shiny::icon("bar-chart")
+                            shiny::icon("fas fa-chart-bar")
     )
   })
 }

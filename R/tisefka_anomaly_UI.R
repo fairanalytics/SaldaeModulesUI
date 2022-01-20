@@ -5,21 +5,17 @@
 #' @export
 SA_anomaly_UI <- function(id,mod_title = NULL ,div_width = "col-xs-12 col-sm-12 col-md-12") {
   ns <- NS(id)
-    div(class = div_width,
-        bs4Dash::tabBox(width = 12, title = mod_title,
-                               tabPanel(icon("table"),
-                                        uiOutput(ns("anomaly_board_box")),
-                                        DT::dataTableOutput(ns("tisefka_table"))
-                               ),
-                               tabPanel(icon("bar-chart"),
-                                        uiOutput(ns("variable_anomaly_view")),
-                                        dygraphs::dygraphOutput(ns("tisefka_plot"),height = "700px")
-                               )
+  bs4Dash::tabBox(width = 12, title = mod_title,
+                  tabPanel(icon("table"),
+                           uiOutput(ns("anomaly_board_box")),
+                           DT::dataTableOutput(ns("tisefka_table"))
+                  ),
+                  tabPanel(icon("fas fa-chart-bar"),
+                           uiOutput(ns("variable_anomaly_view")),
+                           dygraphs::dygraphOutput(ns("tisefka_plot"),height = "700px")
+                  )
 
-        )
-    )
-
-
+  )
 }
 
 #' Saldae Dashboard Module Server
@@ -189,11 +185,14 @@ SA_anomaly_mod <- function(input, output, session,tisefka) {
     shinyWidgets::pickerInput(inputId = session$ns("variable_anomaly_view"),
                               label = "Select Variable:",
                               multiple = FALSE,
+                              width = 3,
                               choices = target_variables(),
                               selected = target_variables()[1]
                               )%>%shinyhelper::helper(type = "markdown",buttonLabel="Got it",
-                                                      # icon= shiny::icon("fa-lightbulb"),
-                                                      colour = "green",
+                                                      icon= shiny::icon("fas fa-question-circle"),
+                                                      colour = "orange",
+                                                      fade   = FALSE,
+                                                      size = "l",
                                                       content = "sald_anomaly")
     })
   #----------------main chart
