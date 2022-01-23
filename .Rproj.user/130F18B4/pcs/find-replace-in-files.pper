@@ -1,12 +1,12 @@
 {
     "dialog-state": {
-        "query": "shinyhelper",
-        "path": "~/Saldae_Platform",
+        "query": "<<",
+        "path": "~/Saldae_Platform/SaldaeModulesUI/R",
         "regex": false,
         "caseSensitive": false,
         "filePatterns": [],
         "excludeFilePatterns": [],
-        "resultsCount": 0,
+        "resultsCount": 2,
         "errorCount": 0,
         "replaceErrors": ""
     }

@@ -45,6 +45,8 @@ fluidPage(
   #-------- Data overview 2
   # div(class = "col-xs-12 col-sm-12 col-md-12",
       bs4Dash::tabsetPanel(
+        tabPanel(title = "Data Set",icon = icon("eye"),
+        ),
                              tabPanel(title = "Overview",icon = icon("eye"),
                                       rhandsontable::rHandsontableOutput(ns("tisefka_view"))
                              ),
@@ -90,10 +92,10 @@ ghred_tisefka_mod <-function(input, output, session){
     shinyWidgets::pickerInput(
       inputId = session$ns("excel_tawriqt"),
       label = "Choose excel sheet:",
-      choices = excel_tiwriqin(),
-      options = list(
-        style = "btn-primary"
-      )
+      choices = excel_tiwriqin()
+      # options = list(
+      #   style = "btn-primary"
+      # )
     )
   })
 
@@ -124,11 +126,11 @@ ghred_tisefka_mod <-function(input, output, session){
     req(dates_yellan())
     shinyWidgets::pickerInput(
       inputId = session$ns("date_variable"),
-      label = "Choose Date variable:",
-      choices = dates_yellan(),
-      options = list(
-        style = "btn-primary"
-      )
+      label = "Choose Date variable",
+      choices = dates_yellan()
+      # options = list(
+      #   style = "btn-primary"
+      # )
     )
   })
   #  #---------- in case of duplicated dates (grouping is required)--------
@@ -207,10 +209,10 @@ output$tisefka_target_variables <- renderUI({
       label = "Target variables",
       choices = var_class,
       selected = var_class,
-      multiple = TRUE,
-      options = list(
-        style = "btn-primary"
-      )
+      multiple = TRUE
+      # options = list(
+      #   style = "btn-primary"
+      # )
     )
   })
 

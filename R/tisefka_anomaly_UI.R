@@ -95,11 +95,10 @@ SA_anomaly_mod <- function(input, output, session,tisefka) {
   output$non_numeric_variables_inputs <- renderUI({
     req(non_numeric_variables())
     fluidRow(
-      ml_app_UI <- purrr::map(non_numeric_variables(), ~{
+      purrr::map(non_numeric_variables(), ~{
         column(width = 2, uiOutput(session$ns(paste0("non_numeric_variables_",.x))))
       })
     )
-    return(ml_app_UI)
   })
 
   output$select_element <- renderUI({
@@ -108,8 +107,7 @@ SA_anomaly_mod <- function(input, output, session,tisefka) {
                               label = "Target elements:",
                               multiple = TRUE,
                               choices = tisefka_choices(),
-                              selected = NULL
-    )
+                              selected = NULL)
   })
   output$var_granularity <- renderUI({
     req(non_numeric_variables())
@@ -185,7 +183,6 @@ SA_anomaly_mod <- function(input, output, session,tisefka) {
     shinyWidgets::pickerInput(inputId = session$ns("variable_anomaly_view"),
                               label = "Select Variable:",
                               multiple = FALSE,
-                              width = 3,
                               choices = target_variables(),
                               selected = target_variables()[1]
                               )%>%shinyhelper::helper(type = "markdown",buttonLabel="Got it",

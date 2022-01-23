@@ -96,11 +96,10 @@ SA_tisefka_gemmu_mod <- function(input, output, session,tisefka,div_width = "col
   output$non_numeric_variables_inputs <- renderUI({
     req(non_numeric_variables())
     fluidRow(
-      ml_app_UI <- purrr::map(non_numeric_variables(), ~{
+      purrr::map(non_numeric_variables(), ~{
         column(width = 2, uiOutput(session$ns(paste0("non_numeric_variables_",.x))))
       })
     )
-    return(ml_app_UI)
   })
 
   output$select_element <- renderUI({

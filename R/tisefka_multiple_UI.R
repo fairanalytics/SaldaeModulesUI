@@ -16,7 +16,6 @@ SA_tisefka_multiple_mod <- function(input, output, session,tisefka,div_width = "
   })
   tisefka_tizegzawin <- reactive({
     req(tisefka())
-    aa<<-tisefka()
     tisefka()$tisefka_tizegzawin
   })
   non_numeric_variables <- reactive({
@@ -78,11 +77,10 @@ SA_tisefka_multiple_mod <- function(input, output, session,tisefka,div_width = "
   output$non_numeric_variables_inputs <- renderUI({
     req(non_numeric_variables())
     fluidRow(
-      ml_app_UI <- purrr::map(non_numeric_variables(), ~{
+      purrr::map(non_numeric_variables(), ~{
         column(width = 3, uiOutput(session$ns(paste0("non_numeric_variables_",.x))))
       })
     )
-    return(ml_app_UI)
   })
 
   output$select_element <- renderUI({
